@@ -196,8 +196,8 @@ Resources:
         Fn::GetAtt: 
           - "ApiGateway"
           - "RootResourceId"
-      PathPart: "log"
-      RestApiId: !Ref ApiGatewayCMS
+      PathPart: "cellphone"
+      RestApiId: !Ref ApiGateway
 
   # POST /
   ApiGatewayMethodSaveCellphone:
