@@ -21,7 +21,7 @@ Resources:
       MessageRetentionPeriod: 900
       
   Topic:
-    Type: AWS::SQS::Queue
+    Type: AWS::SQS::Topic
     Properties:
       TopicName: "insolabs_topic"
       DisplayName: "Hello Insolentes"
