@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ServerlessQueueRequest {
-	private List<QueueRecord> records;
+	private List<QueueRecord> Records;
 }

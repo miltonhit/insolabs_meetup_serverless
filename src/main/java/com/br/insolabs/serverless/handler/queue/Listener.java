@@ -47,7 +47,7 @@ public class Listener {
 		//
 		//
 		ServerlessQueueRequest request = ServerlessQueueRequest.builder()
-				.records(records)
+				.Records(records)
 				.build();
 		//
 		//
