@@ -11,7 +11,7 @@ Globals:
       service: insolabs_meetup_serverless
           
 Resources:
- 
+
   Queue:
     Type: AWS::SQS::Queue
     Properties:
@@ -21,7 +21,7 @@ Resources:
       MessageRetentionPeriod: 900
       
   Topic:
-    Type: AWS::SQS::Topic
+    Type: AWS::SNS::Topic
     Properties:
       TopicName: "insolabs_topic"
       DisplayName: "Hello Insolentes"
@@ -118,4 +118,88 @@ Resources:
       Enabled: true
       EventSourceArn: !GetAtt Queue.Arn
       FunctionName: !GetAtt LambdaQueueListener.Arn
+      
+      
+   ###    ########  ####           ######      ###    ######## ######## ##      ##    ###    ##    ## 
+  ## ##   ##     ##  ##           ##    ##    ## ##      ##    ##       ##  ##  ##   ## ##    ##  ##  
+ ##   ##  ##     ##  ##           ##         ##   ##     ##    ##       ##  ##  ##  ##   ##    ####   
+##     ## ########   ##           ##   #### ##     ##    ##    ######   ##  ##  ## ##     ##    ##    
+######### ##         ##           ##    ##  #########    ##    ##       ##  ##  ## #########    ##    
+##     ## ##         ##           ##    ##  ##     ##    ##    ##       ##  ##  ## ##     ##    ##    
+##     ## ##        ####           ######   ##     ##    ##    ########  ###  ###  ##     ##    ##    
+  ApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: insolabs-meetup-serverless
+      EndpointConfiguration:
+        Types:
+          - 'REGIONAL'
+      Policy: 
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "execute-api:Invoke",
+                "Resource": "arn:aws:execute-api:us-east-1:${AWS::AccountId}:*/*",
+                "Condition": {
+                  "IpAddress": {
+                    "aws:SourceIp": [
+                      "179.191.99.250/32",
+                      "187.32.146.140/32",
+                      "35.171.91.196/32",
+                      "18.233.187.60/32",
+                      "34.232.201.168/32"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+          
+  # Role (assume role)
+  APIGatewayInvokeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "apigateway.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+              
+  # Policy
+  APIGatewayInvokePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: APIGatewayInvokePolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - lambda:InvokeFunction
+            Resource: !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:insolabs-serverless-api-*"
+      Roles:
+        - !Ref APIGatewayInvokeRole
+
+  # POST /
+  ApiGatewayMethodSaveCellphone:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        Credentials: !GetAtt APIGatewayInvokeRole.Arn
+        IntegrationHttpMethod: POST
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaApiSaveCellphone.Arn}/invocations
+      HttpMethod: POST
+      RestApiId: !Ref ApiGateway
+      MethodResponses:
+        - StatusCode: 200
         
