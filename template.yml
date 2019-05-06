@@ -84,9 +84,8 @@ Resources:
       FunctionName: insolabs-serverless-api-SaveCellphone
       Handler: com.br.insolabs.serverless.handler.api.SaveCellphone::handleRequest
       Environment:
-      	Variables:
-        	env_execution: !GetAtt Topic.Arn
-      
+        Variables:
+          topicArn: !GetAtt Topic.Arn
       Policies:
         - !Ref SaveClientTopicPolicy
         
@@ -97,6 +96,9 @@ Resources:
       CodeUri: build/distributions/app-0.1-SNAPSHOT.zip
       FunctionName: insolabs-serverless-queue-Listener
       Handler: com.br.insolabs.serverless.handler.queue.Listener::handleRequest
+      Environment:
+        Variables:
+          topicArn: !GetAtt Topic.Arn
       Policies:
         - !Ref QueueListenerPolicy
         - !Ref PublishTopicPolicy
