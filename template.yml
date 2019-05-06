@@ -43,7 +43,7 @@ Resources:
           - Effect: Allow
             Action:
               - sns:Publish
-            Resource: !GetAtt Topic.Arn
+            Resource: !Ref Topic
             
   SaveClientTopicPolicy:
     Type: AWS::IAM::ManagedPolicy
@@ -54,7 +54,7 @@ Resources:
           - Effect: Allow
             Action:
               - sns:Subscribe
-            Resource: !GetAtt Topic.Arn
+            Resource: !Ref Topic
   
   QueueListenerPolicy:
     Type: AWS::IAM::ManagedPolicy
@@ -85,7 +85,7 @@ Resources:
       Handler: com.br.insolabs.serverless.handler.api.SaveCellphone::handleRequest
       Environment:
         Variables:
-          topicArn: !GetAtt Topic.Arn
+          topicArn: !Ref Topic
       Policies:
         - !Ref SaveClientTopicPolicy
         
@@ -98,7 +98,7 @@ Resources:
       Handler: com.br.insolabs.serverless.handler.queue.Listener::handleRequest
       Environment:
         Variables:
-          topicArn: !GetAtt Topic.Arn
+          topicArn: !Ref Topic
       Policies:
         - !Ref QueueListenerPolicy
         - !Ref PublishTopicPolicy
