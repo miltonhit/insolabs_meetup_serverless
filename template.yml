@@ -188,6 +188,17 @@ Resources:
       Roles:
         - !Ref APIGatewayInvokeRole
 
+  # Path /cellphone
+  ApiGatewayResourceCellphone:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: 
+        Fn::GetAtt: 
+          - "ApiGateway"
+          - "RootResourceId"
+      PathPart: "log"
+      RestApiId: !Ref ApiGatewayCMS
+
   # POST /
   ApiGatewayMethodSaveCellphone:
     Type: AWS::ApiGateway::Method
@@ -200,6 +211,7 @@ Resources:
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaApiSaveCellphone.Arn}/invocations
       HttpMethod: POST
       RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ApiGatewayResourceCellphone
       MethodResponses:
         - StatusCode: 200
         
