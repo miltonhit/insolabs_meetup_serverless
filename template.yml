@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: java8
+    MemorySize: 1536
+    Timeout: 28
+        
+    Tags:
+      service: insolabs_meetup_serverless
+          
+Resources:
+ 
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: insolabs-meetup-queue
+      DelaySeconds: 0
+      VisibilityTimeout: 120      
+      MessageRetentionPeriod: 900
+      
+  Topic:
+    Type: AWS::SQS::Queue
+    Properties:
+      TopicName: "insolabs_topic"
+      DisplayName: "Hello Insolentes"
+
+########   #######  ##       ####  ######  ##    ## 
+##     ## ##     ## ##        ##  ##    ##  ##  ##  
+##     ## ##     ## ##        ##  ##         ####   
+########  ##     ## ##        ##  ##          ##    
+##        ##     ## ##        ##  ##          ##    
+##        ##     ## ##        ##  ##    ##    ##    
+##         #######  ######## ####  ######     ##
+
+  PublishTopicPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement: 
+          - Effect: Allow
+            Action:
+              - sns:Publish
+            Resource: !GetAtt Topic.Arn
+            
+  SaveClientTopicPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement: 
+          - Effect: Allow
+            Action:
+              - sns:Subscribe
+            Resource: !GetAtt Topic.Arn
+  
+  QueueListenerPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement: 
+          - Effect: Allow
+            Action:
+              - sqs:ReceiveMessage
+              - sqs:DeleteMessage
+              - sqs:GetQueueAttributes
+            Resource: !GetAtt Queue.Arn
+                        
+##          ###    ##     ## ########  ########     ###    
+##         ## ##   ###   ### ##     ## ##     ##   ## ##   
+##        ##   ##  #### #### ##     ## ##     ##  ##   ##  
+##       ##     ## ## ### ## ########  ##     ## ##     ## 
+##       ######### ##     ## ##     ## ##     ## ######### 
+##       ##     ## ##     ## ##     ## ##     ## ##     ## 
+######## ##     ## ##     ## ########  ########  ##     ##
+  
+  LambdaApiSaveCellphone:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/distributions/app-0.1-SNAPSHOT.zip
+      FunctionName: insolabs-serverless-api-SaveCellphone
+      Handler: com.br.insolabs.serverless.handler.api.SaveCellphone::handleRequest
+      Environment:
+      	Variables:
+        	env_execution: !GetAtt Topic.Arn
+      
+      Policies:
+        - !Ref SaveClientTopicPolicy
+        
+  LambdaQueueListener:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 60
+      CodeUri: build/distributions/app-0.1-SNAPSHOT.zip
+      FunctionName: insolabs-serverless-queue-Listener
+      Handler: com.br.insolabs.serverless.handler.queue.Listener::handleRequest
+      Policies:
+        - !Ref QueueListenerPolicy
+        - !Ref PublishTopicPolicy
+        
+########  ######## ########  ##     ## ####  ######   ######  ####  #######  ##    ## 
+##     ## ##       ##     ## ###   ###  ##  ##    ## ##    ##  ##  ##     ## ###   ## 
+##     ## ##       ##     ## #### ####  ##  ##       ##        ##  ##     ## ####  ## 
+########  ######   ########  ## ### ##  ##   ######   ######   ##  ##     ## ## ## ## 
+##        ##       ##   ##   ##     ##  ##        ##       ##  ##  ##     ## ##  #### 
+##        ##       ##    ##  ##     ##  ##  ##    ## ##    ##  ##  ##     ## ##   ### 
+##        ######## ##     ## ##     ## ####  ######   ######  ####  #######  ##    ## 
+
+  FunctionSqsSendMessageEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1
+      Enabled: true
+      EventSourceArn: !GetAtt Queue.Arn
+      FunctionName: !GetAtt LambdaQueueListener.Arn
+        

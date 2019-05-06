@@ -1,0 +1,58 @@
+apply plugin:'java'
+apply plugin: 'eclipse'
+
+repositories {
+	mavenCentral()
+}
+
+sourceCompatibility = 1.8
+
+eclipse {
+	project {
+    	name = 'insolabs_meetup_serverless'
+    }
+}
+
+dependencies {
+	compile "com.amazonaws:aws-lambda-java-core:1.0.0",
+			"com.amazonaws:aws-java-sdk-sns:1.11.546",
+			"com.fasterxml.jackson.core:jackson-databind:2.9.8",
+			"org.json:json:20180813",
+			"org.projectlombok:lombok:1.16.8"
+}
+
+jar {
+	baseName = "app"
+	version = "0.1-SNAPSHOT"
+	from ("${projectDir}/src/main/java") {
+		include("**/*.json")
+		include("**/*.xml")
+	}
+
+	manifest {
+		def manifestFile = "${projectDir}/META-INF/MANIFEST.MF"
+		if (new File(manifestFile).exists()) {
+			from File(manifestFile)
+		} else {
+			manifest.attributes(
+				'Project': 'insolabs_meetup_serverless',
+				'Specification-Vendor': 'Insolabs <milton33b@hotmail.com>',
+				'Tool': GradleVersion.current().toString(),
+				'Created-By': org.gradle.internal.jvm.Jvm.current())
+		}
+	}
+}	
+
+task buildZip(type: Zip) {
+	baseName = "app"
+	version = "0.1-SNAPSHOT"
+	from ("${projectDir}/src/main/java") {
+        include("**/*.json")
+	    include("**/*.xml")
+    }
+	from compileJava
+        from processResources
+        into('lib') {
+		from configurations.compile
+    }
+}

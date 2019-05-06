@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+ build:
+  commands:
+   - export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+   - gradle build -x test
+ post_build:
+  commands:
+   - aws cloudformation package --template-file template.yml --s3-bucket porygon-cloudformation --output-template-file outTemplate.yml
+
+artifacts:
+ files:
+  - outTemplate.yml

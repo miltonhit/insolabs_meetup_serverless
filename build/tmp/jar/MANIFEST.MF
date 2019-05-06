@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Specification-Vendor: Insolabs <milton33b@hotmail.com>
+Project: insolabs_meetup_serverless
+Tool: Gradle 4.6
+Created-By: 1.8.0_191 (Oracle Corporation 25.191-b12)
+
