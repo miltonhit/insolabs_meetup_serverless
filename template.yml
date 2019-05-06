@@ -134,7 +134,7 @@ Resources:
       EndpointConfiguration:
         Types:
           - 'REGIONAL'
-      Policy: 
+      Policy: !Sub |-
           {
             "Version": "2012-10-17",
             "Statement": [
@@ -142,7 +142,7 @@ Resources:
                 "Effect": "Allow",
                 "Principal": "*",
                 "Action": "execute-api:Invoke",
-                "Resource": "arn:aws:execute-api:us-east-1:*:*/*"
+                "Resource": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*"
               }
             ]
           }
