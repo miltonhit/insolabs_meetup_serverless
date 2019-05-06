@@ -24,6 +24,7 @@ public class SaveCellphone {
 	// Lambda
 	// Extrair informações do request
 	public ServerlessApiResponse handleRequest(ServerlessApiRequest request, Context context) throws IOException {
+		System.out.println(objectMapper.writeValueAsString(request));
 		ServerlessApiResponse response = null;
 		
 		//

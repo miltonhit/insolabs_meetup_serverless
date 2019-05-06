@@ -57,5 +57,34 @@ task buildZip(type: Zip) {
     }
 }
 
+def AWSProfile = 'insolabs_meetup_devops'
+def AWSBucket = 'porygon-cloudformation'
+def AWSRegion = 'us-east-1'
+
 
 build.dependsOn buildZip
+
+
+task deployToS3(type: Exec, dependsOn: build) {
+	commandLine 'aws', 's3', 'cp', "build/distributions/app-0.1-SNAPSHOT.zip", "s3://"+AWSBucket+"/function_insolabs_meetup.zip", "--profile", AWSProfile
+}
+
+task deployLambdaApiSaveCellphone(type: Exec, dependsOn: deployToS3) {
+	commandLine 'aws', 'lambda', 'update-function-code',
+		'--function-name', 'insolabs-serverless-api-SaveCellphone',
+		'--s3-bucket', AWSBucket,
+		'--s3-key', "function_insolabs_meetup.zip",
+		'--region', AWSRegion,
+		'--profile', AWSProfile
+}
+
+task deployLambdaQueueListener(type: Exec, dependsOn: deployLambdaApiSaveCellphone) {
+	commandLine 'aws', 'lambda', 'update-function-code',
+		'--function-name', 'insolabs-serverless-queue-Listener',
+		'--s3-bucket', AWSBucket,
+		'--s3-key', "function_insolabs_meetup.zip",
+		'--region', AWSRegion,
+		'--profile', AWSProfile
+}
+
+task up(dependsOn: deployLambdaQueueListener)
