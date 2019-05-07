@@ -52,4 +52,4 @@ Desenvolvido Por:
 
 **Agradecimento**
 ------------
-[**@Insolabs** Guilherme Melotto](https://github.com/insolabs)
+[**@Insolabs** Insolabs](https://github.com/insolabs)
