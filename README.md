@@ -1,12 +1,12 @@
 # insolabs_meetup_serverless #
-Código fonte do [meetup](https://www.meetup.com/pt-BR/Insolabs/events/261136589/) apresentado dia 08/05/2019 por ***Milton Bertachini*** entre 19:00 e 20:00 no espaço oferecido pela [Trigg](trigg.com.br) a apresentação pode ser encontrada [aqui](https://docs.google.com/presentation/d/e/2PACX-1vQHyV4on3yMi5MMou9t3tP6CV9E51zqS6P42Dn0PYlh_0Dn0kqxS0GEmcycjW2Jo-0DxleNTBLALID4/pub?start=false&loop=false&delayms=3000).
+Código fonte do [meetup](https://www.meetup.com/pt-BR/Insolabs/events/261136589/) apresentado dia 08/05/2019 por ***Milton Bertachini*** entre 19:00 e 20:00 no espaço oferecido pela [Trigg](trigg.com.br). A apresentação completa pode ser encontrada [aqui](meetup/apresentacao_completa.pdf).
 
 ## O que foi utilizado neste projeto? 
 - [AWS Cloudformation](#criando-a-stack-cloudformation)
 - AWS SNS 
-- AWS SQS
+- [AWS SQS](#arquitetura-sqs)
 - AWS Lambda 
-- AWS ApiGateway
+- [AWS ApiGateway](#arquitetura-apigateway)
 - Java 8 
 - Gradle 4.6 
 
@@ -29,3 +29,15 @@ Para montar essa estrutura você deve executar o comando:
 aws cloudformation package --template-file template.yml --s3-bucket [[SEU_BUCKET]] --output-template-file outTemplate.yml
 ```
 Isso vai gerar o artefato *outTemplate.yml* que deve ser importado dentro do [AWS CloudFormation](https://aws.amazon.com/pt/cloudformation/) como um change-set de uma stack.
+
+
+### Arquitetura ApiGateway ###
+![desenho da arquitetura utilizada para criação da API Gateway + Lambda](meetup/arquitetura_api.png)
+
+### Arquitetura SQS ###
+![desenho da arquitetura utilizada para criação da SQS + Lambda](meetup/arquitetura_sqs.png)
+
+### Front-End ###
+O front-end utilizado para essa demonstração pode ser encontrado [aqui](meetup/frontend).
+
+
