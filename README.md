@@ -33,11 +33,23 @@ Isso vai gerar o artefato *outTemplate.yml* que deve ser importado dentro do [AW
 
 ### Arquitetura ApiGateway ###
 ![desenho da arquitetura utilizada para criação da API Gateway + Lambda](meetup/arquitetura_api.png)
+[Código Fonte Função Lambda](/src/main/java/com/br/insolabs/serverless/handler/api/SaveCellphone.java)
 
 ### Arquitetura SQS ###
 ![desenho da arquitetura utilizada para criação da SQS + Lambda](meetup/arquitetura_sqs.png)
+[Código Fonte Função Lambda](/src/main/java/com/br/insolabs/serverless/handler/queue/Listener.java)
 
 ### Front-End ###
 O front-end utilizado para essa demonstração pode ser encontrado [aqui](meetup/frontend).
 
+Desenvolvido Por:
+------------
+[**@miltonhit** Milton Bertachini Neto](https://github.com/miltonhit)
 
+**Contribuidores**
+------------
+[**@guimelotto** Guilherme Melotto](https://github.com/guimelotto) Front-End
+
+**Agradecimento**
+------------
+[**@Insolabs** Guilherme Melotto](https://github.com/insolabs)
