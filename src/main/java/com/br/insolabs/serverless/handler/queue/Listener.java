@@ -1,8 +1,5 @@
 package com.br.insolabs.serverless.handler.queue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,7 +7,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sns.model.PublishRequest;
-import com.br.insolabs.serverless.domains.QueueRecord;
 import com.br.insolabs.serverless.domains.bussiness.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,20 +38,20 @@ public class Listener {
 			throw exc;
 		}
 	}
+}		
 		
-		
-	// Testar
-	//
-	public static void main(String args[]) throws Exception {
-		List<QueueRecord> records = new ArrayList<QueueRecord>();
-		records.add(QueueRecord.builder().body("{\"text\":\"Teste 123\"}").build());
-		//
-		//
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("Records", records);
-		//
-		//
-		new Listener().handleRequest(jsonObject.toString(), null);
-    }
-}
+//	// Testar
+//	//
+//	public static void main(String args[]) throws Exception {
+//		List<QueueRecord> records = new ArrayList<QueueRecord>();
+//		records.add(QueueRecord.builder().body("{\"text\":\"Teste 123\"}").build());
+//		//
+//		//
+//		JSONObject jsonObject = new JSONObject();
+//		jsonObject.put("Records", records);
+//		//
+//		//
+//		new Listener().handleRequest(jsonObject.toString(), null);
+//    }
+//}
 	

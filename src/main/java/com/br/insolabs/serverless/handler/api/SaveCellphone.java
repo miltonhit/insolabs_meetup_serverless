@@ -58,19 +58,23 @@ public class SaveCellphone {
 		//
 		return response;
 	}
-		
-		
-	// Testar
-	//
-	public static void main(String args[]) throws Exception {
-		ServerlessApiRequest request = ServerlessApiRequest.builder()
-			.body("{\"cellphone\": \"+55987702333\"}")
-			.build();
-		
-		//
-		//
-		ServerlessApiResponse response = new SaveCellphone().handleRequest(request, null);
- 		System.out.print(response); 		
-    }
 }
+		
+
+
+
+//		
+//	// Testar
+//	//
+//	public static void main(String args[]) throws Exception {
+//		ServerlessApiRequest request = ServerlessApiRequest.builder()
+//			.body("{\"cellphone\": \"+55987702333\"}")
+//			.build();
+//		
+//		//
+//		//
+//		ServerlessApiResponse response = new SaveCellphone().handleRequest(request, null);
+// 		System.out.print(response); 		
+//    }
+//}
 	
