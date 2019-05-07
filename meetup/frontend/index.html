@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>INSOLABS</title>
+
+    <!-- BULMA -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"
+    />
+
+    <!-- ANIMATE -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"
+    />
+
+    <!-- FONT AWESOME -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+
+    <!-- AXIOS -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- INPUT MASK -->
+    <script src="//unpkg.com/vanilla-masker@1.1.1/build/vanilla-masker.min.js"></script>
+  </head>
+
+  <body>
+    <div class="columns is-centered">
+      <div
+        class="column is-full-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd"
+      >
+        <section class="section" id="start-section">
+          <figure class="image is-128x128 container">
+            <img src="img/insolabs.jpeg" />
+          </figure>
+          <h1 class="title has-text-centered">
+            Bem vindo insolente!
+          </h1>
+          <p class="subtitle has-text-centered">
+            Digite seu celular abaixo
+          </p>
+
+          <hr />
+
+          <div class="control has-icons-left" id="input-div">
+            <input
+              class="input"
+              type="tel"
+              placeholder="Celular"
+              id="cel-input"
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-mobile"></i>
+            </span>
+          </div>
+          <br />
+          <a
+            class="button is-medium is-fullwidth is-primary"
+            onclick="sendRequest()"
+            id="send-btn"
+          >
+            Cadastrar
+          </a>
+        </section>
+        <section class="section is-hidden" id="end-section">
+          <figure class="image is-128x128 container">
+            <img src="img/insolabs.jpeg" />
+          </figure>
+          <h1 class="title has-text-centered">
+            Muito obrigado
+          </h1>
+          <p class="subtitle has-text-centered">
+            Aguarde novas instruções!
+          </p>
+          <hr />
+          <a
+            class="button is-medium is-fullwidth is-primary is-outlined"
+            onclick="backToStart()"
+          >
+            Voltar
+          </a>
+        </section>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
